@@ -46,4 +46,7 @@ class ChatController extends BaseController {
 		Chat::updateOnline($channel, ChatAuth::user()->id);
                 return Response::json($users);
         }
+	public function emoticons() {
+		return Response::json(DB::select('SELECT * FROM `chat_emots` ORDER BY CHAR_LENGTH(`emoticon`) DESC'));
+	}
 }

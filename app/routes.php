@@ -38,6 +38,7 @@ Route::post('/login-data/', array(
                                   'as' => 'login.post',
                                   'uses' => 'LoginController@loginHandle'));
 
+                                
 Route::get('/channel/{channel}/', array(
                 'before' => 'auth|auth.chat.basic',
                 'as'   =>    'channel.get',
@@ -135,3 +136,9 @@ Route::post('/profile/edit', array(
                                 'as'    => 'profile.editSend',
                                 'uses'   => 'ProfileController@postEditProfile'
                             ));
+
+Route::get('/emoticons', array(
+                'as'   =>    'emoticons',
+                'uses' => 'ChatController@emoticons'
+                 )
+           );
