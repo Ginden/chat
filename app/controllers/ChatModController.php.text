@@ -1,0 +1,46 @@
+<?php
+
+class ChatModController extends BaseController {
+
+	/*
+Route::post('/channel/{number}/moderation/ban-user/', 'ChatModController@banUser');
+Route::post('/channel/{number}/moderation/show-bans/', 'ChatModController@showBans');
+Route::post('/channel/{number}/moderation/show-users/', 'ChatModController@showUsers');
+Route::post('/channel/{number}/moderation/give-access/', 'ChatModController@giveAccess');
+Route::post('/channel/{number}/moderation/last-seen/', 'ChatModController@lastSeen');
+
+	*/
+
+
+        public function banUser($channel = 0){
+		$rules = array(
+			       'id' => 'digits_between:1,9',
+			       'time'	 => 'digits_between:1,9'
+			       );
+		$validation = Validator::make(Input::only('id', 'time'), $rules);
+		if ($validation->fails()) {
+			return Response::json([false]);
+		}
+                return Response::json([Chat::banUser(
+				$channel,
+				Input::get('id'),
+				Input::get('time')
+			), DB::getQueryLog()]);
+        }
+        public function showBans($channel = 0){
+                return Response::json(Chat::getBannedUsers($channel));
+        }
+        public function showUsers($channel = 0){
+		return Response::json(Chat::getAllowedUsers($channel));
+                
+        }
+        public function showAllUsers($channel = 0){
+                return Response::json(Chat::getUsersWithoutAccess($channel));
+        }
+        public function giveAccess($channel = 0){
+                return View::make('online-users');
+        }
+        public function lastSeen($channel = 0){
+                return View::make('online-users');
+        }
+}
